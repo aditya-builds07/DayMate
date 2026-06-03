@@ -6,15 +6,19 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Init modules
   Events.init();
+  Tasks.init();
   Animations.init();
 
   // Init calendar
   Calendar.init('.calendar-grid', '.calendar-month-title', handleCellClick);
 
-  // Re-render when events change
+  // Re-render when events or tasks change
   Events.onChange(() => {
     Calendar.render();
     renderSidebar();
+  });
+  Tasks.onChange(() => {
+    renderTasks();
   });
 
   // Navigation buttons
@@ -37,6 +41,53 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('modal-backdrop').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) closeModal();
   });
+
+  // Overlays
+  document.getElementById('btn-analytics').addEventListener('click', () => openOverlay('analytics-overlay'));
+  document.getElementById('btn-booking').addEventListener('click', () => openOverlay('booking-overlay'));
+  document.querySelectorAll('.close-overlay').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.getElementById(e.currentTarget.dataset.target).classList.remove('open');
+    });
+  });
+
+  // Sidebar Tabs
+  document.querySelectorAll('.sidebar-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      const target = e.currentTarget.dataset.target;
+      document.getElementById('sidebar-body').style.display = target === 'upcoming' ? 'flex' : 'none';
+      document.getElementById('sidebar-tasks').style.display = target === 'tasks' ? 'flex' : 'none';
+    });
+  });
+
+  // Quick Add Input
+  const quickAddInput = document.getElementById('quick-add-input');
+  if (quickAddInput) {
+    quickAddInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.value.trim()) {
+        const parsed = Events.parseQuickAdd(e.target.value.trim());
+        Events.add(parsed);
+        e.target.value = '';
+        Animations.showToast(`Added: ${parsed.title}`, 'check');
+      }
+    });
+  }
+
+  // Tasks Input
+  const taskInput = document.getElementById('new-task-input');
+  const btnAddTask = document.getElementById('btn-add-task');
+  if (btnAddTask && taskInput) {
+    const handleAddTask = () => {
+      if (taskInput.value.trim()) {
+        Tasks.add(taskInput.value.trim());
+        taskInput.value = '';
+      }
+    };
+    btnAddTask.addEventListener('click', handleAddTask);
+    taskInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAddTask(); });
+  }
 
   // Modal save
   document.getElementById('modal-save').addEventListener('click', handleSaveEvent);
@@ -108,8 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Initial sidebar render
+  // Initial render
   renderSidebar();
+  renderTasks();
 });
 
 /* ---- State ---- */
@@ -282,7 +334,99 @@ function renderSidebar() {
   });
 }
 
-/* ---- Search highlight ---- */
+/* ---- Overlays ---- */
+function openOverlay(id) {
+  document.getElementById(id).classList.add('open');
+  if (id === 'analytics-overlay') {
+    renderAnalytics();
+  }
+}
+
+/* ---- Tasks Sidebar ---- */
+function renderTasks() {
+  const list = document.getElementById('task-list');
+  if (!list) return;
+  list.innerHTML = '';
+  
+  const tasks = Tasks.getAll();
+  if (tasks.length === 0) {
+    list.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 20px;">No pending tasks</div>`;
+    return;
+  }
+
+  tasks.forEach(t => {
+    const item = document.createElement('div');
+    item.className = 'task-item';
+    item.draggable = true;
+    item.innerHTML = `
+      <span>${t.title}</span>
+      <span class="task-delete" data-id="${t.id}">×</span>
+    `;
+
+    // Drag setup
+    item.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', t.title);
+      e.dataTransfer.setData('application/json', JSON.stringify(t));
+      item.style.opacity = '0.5';
+    });
+    item.addEventListener('dragend', () => {
+      item.style.opacity = '1';
+    });
+
+    list.appendChild(item);
+  });
+
+  // Delete task listeners
+  document.querySelectorAll('.task-delete').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      Tasks.remove(e.target.dataset.id);
+    });
+  });
+}
+
+/* ---- Analytics Chart ---- */
+let timeChartInstance = null;
+function renderAnalytics() {
+  const canvas = document.getElementById('timeChart');
+  if (!canvas) return;
+
+  const events = Events.getAll();
+  document.getElementById('stat-total-events').textContent = events.length;
+  
+  const counts = { meeting: 0, personal: 0, reminder: 0, deadline: 0 };
+  events.forEach(e => counts[e.category] = (counts[e.category] || 0) + 1);
+
+  // Find busiest
+  let max = 0; let maxCat = '-';
+  Object.keys(counts).forEach(k => {
+    if (counts[k] > max) { max = counts[k]; maxCat = k; }
+  });
+  document.getElementById('stat-busiest-cat').textContent = maxCat.charAt(0).toUpperCase() + maxCat.slice(1);
+
+  if (timeChartInstance) timeChartInstance.destroy();
+
+  const ctx = canvas.getContext('2d');
+  // @ts-ignore
+  timeChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Meetings', 'Personal', 'Reminders', 'Deadlines'],
+      datasets: [{
+        data: [counts.meeting, counts.personal, counts.reminder, counts.deadline],
+        backgroundColor: ['#c4b84d', '#5db87a', '#5b8fd4', '#d48a5b'],
+        borderWidth: 0,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { color: '#f5f0e0', font: { family: 'Inter' } } }
+      }
+    }
+  });
+}
 function highlightSearchResults(query) {
   // Simple: just re-render and let the user see matching events
   // A more advanced version would highlight cells

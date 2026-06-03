@@ -94,6 +94,38 @@ const Calendar = (() => {
       cell.addEventListener('click', () => {
         if (onCellClick) onCellClick(dateStr, events);
       });
+
+      // Drag and Drop (Drop Zone)
+      cell.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        cell.classList.add('drag-over');
+      });
+      cell.addEventListener('dragleave', () => {
+        cell.classList.remove('drag-over');
+      });
+      cell.addEventListener('drop', (e) => {
+        e.preventDefault();
+        cell.classList.remove('drag-over');
+        
+        try {
+          const taskData = JSON.parse(e.dataTransfer.getData('application/json'));
+          if (taskData && taskData.id) {
+            // Convert task to event on this date
+            Events.add({
+              title: taskData.title,
+              date: dateStr,
+              time: '09:00', // default time for dropped tasks
+              category: 'personal',
+              notes: 'Imported from Tasks'
+            });
+            // Remove task from list
+            Tasks.remove(taskData.id);
+            Animations.showToast('Scheduled: ' + taskData.title, 'check');
+          }
+        } catch (err) {
+          console.error('Drop error', err);
+        }
+      });
     }
 
     // Date number
