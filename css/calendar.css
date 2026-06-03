@@ -127,14 +127,27 @@
   display: flex;
   flex: 1;
   overflow: hidden;
+  position: relative;
 }
 
 .calendar-container {
   flex: 1;
-  padding: var(--space-xl);
+  padding: var(--space-xl) var(--space-3xl);
   display: flex;
   flex-direction: column;
   position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* When sidebar is active, shift calendar left */
+.app-main.sidebar-active .calendar-container {
+  margin: 0;
+  margin-right: 0;
+  max-width: 100%;
+  padding: var(--space-xl);
 }
 
 /* ---- Calendar Navigation ---- */

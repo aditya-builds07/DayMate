@@ -211,12 +211,26 @@ function handleDeleteEvent() {
 /* ---- Sidebar ---- */
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
+  const appMain = document.querySelector('.app-main');
+  const isOpening = !sidebar.classList.contains('open');
+
   sidebar.classList.toggle('open');
+
+  if (isOpening) {
+    // Small delay so sidebar starts sliding first, then calendar shifts
+    requestAnimationFrame(() => {
+      appMain.classList.add('sidebar-active');
+    });
+  } else {
+    appMain.classList.remove('sidebar-active');
+  }
 }
 
 function closeSidebar() {
   const sidebar = document.getElementById('sidebar');
+  const appMain = document.querySelector('.app-main');
   sidebar.classList.remove('open');
+  appMain.classList.remove('sidebar-active');
 }
 
 function renderSidebar() {
