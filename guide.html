@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Littlebird Calendar - Complete user guide and manual." />
+  <title>Littlebird — Guide & Manual</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/guide.css" />
+</head>
+<body>
+  <div class="guide-page">
+
+    <!-- ===== HERO ===== -->
+    <header class="guide-hero">
+      <nav class="guide-breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        <a href="app.html">Calendar</a>
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        <span>Guide</span>
+      </nav>
+      <h1 class="guide-title">User Guide</h1>
+      <p class="guide-subtitle">Everything you need to know about Littlebird Calendar. From basics to power-user tips.</p>
+    </header>
+
+    <!-- ===== CONTENT ===== -->
+    <main class="guide-content">
+
+      <!-- ---- Features Overview ---- -->
+      <section class="guide-section reveal">
+        <h2 class="guide-section-title">
+          <svg class="animated" viewBox="0 0 24 24">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          Features Overview
+        </h2>
+        <div class="showcase-grid" data-stagger>
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <h3>Monthly Calendar View</h3>
+            <p>A beautifully crafted monthly grid with smooth slide transitions when navigating between months. Each cell shows event tags with category colors.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h3>Today Highlight</h3>
+            <p>The current day is always visible with a pulsing golden glow ring. Press T on your keyboard to jump to today instantly.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <h3>Event Management</h3>
+            <p>Create, edit, and delete events with an animated modal. Set title, date, time, category, and notes for each event.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <h3>Live Stats</h3>
+            <p>The stats bar shows events today, this week, this month, and the next upcoming event. Numbers animate with a counter roll effect.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <h3>Search & Filter</h3>
+            <p>Search events by title or notes in real-time. Filter by category using the animated pill buttons above the calendar.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
+            </div>
+            <h3>Upcoming Sidebar</h3>
+            <p>A slide-in sidebar panel shows your next upcoming events in chronological order. Click any card to edit the event.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+            <h3>Auto-Save</h3>
+            <p>All events are persisted in your browser's localStorage. No login, no server, no data ever leaves your machine.</p>
+          </div>
+
+          <div class="showcase-card reveal">
+            <div class="showcase-card-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3v18M3 12h18"/>
+                <circle cx="12" cy="12" r="9" stroke-dasharray="4 2"/>
+              </svg>
+            </div>
+            <h3>4 Categories</h3>
+            <p>Color-coded event categories: Meeting (gold), Personal (green), Reminder (blue), and Deadline (orange). Each with its own glow.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- Getting Started ---- -->
+      <section class="guide-section reveal">
+        <h2 class="guide-section-title">
+          <svg class="animated" viewBox="0 0 24 24">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+          Getting Started
+        </h2>
+        <div class="steps-list">
+          <div class="step-item reveal">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Open the Calendar</h4>
+              <p>Click "Open Calendar" on the landing page or navigate directly to the app page. The calendar loads with today's month and pre-populated sample events.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Navigate Months</h4>
+              <p>Use the left and right arrow buttons next to the month title, or press the Left/Right arrow keys on your keyboard. The calendar slides smoothly in the direction of travel.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Create an Event</h4>
+              <p>Click any date cell on the calendar, or press the "New Event" button in the top bar, or press N on your keyboard. Fill in the title, pick a date, time, and category, then click Save.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Edit or Delete Events</h4>
+              <p>Click a date cell that has events to open the first event for editing. Modify any field and click Save, or click Delete to remove the event. A toast notification will confirm the action.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>View Upcoming Events</h4>
+              <p>Click the grid icon in the top-right corner or press S to toggle the sidebar. It shows your next 8 upcoming events in order, with animated card entrances.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number">6</div>
+            <div class="step-content">
+              <h4>Search & Filter</h4>
+              <p>Type in the search bar to filter events by title or notes. Use the category pills (Meeting, Personal, Reminder, Deadline) to show only specific event types.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- Keyboard Shortcuts ---- -->
+      <section class="guide-section reveal">
+        <h2 class="guide-section-title">
+          <svg class="animated" viewBox="0 0 24 24">
+            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+            <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"/>
+          </svg>
+          Keyboard Shortcuts
+        </h2>
+        <table class="shortcuts-table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Action</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="reveal">
+              <td><kbd>&larr;</kbd></td>
+              <td>Previous Month</td>
+              <td>Navigate to the previous month with a slide animation</td>
+            </tr>
+            <tr class="reveal">
+              <td><kbd>&rarr;</kbd></td>
+              <td>Next Month</td>
+              <td>Navigate to the next month with a slide animation</td>
+            </tr>
+            <tr class="reveal">
+              <td><kbd>T</kbd></td>
+              <td>Go to Today</td>
+              <td>Jump back to the current month and highlight today</td>
+            </tr>
+            <tr class="reveal">
+              <td><kbd>N</kbd></td>
+              <td>New Event</td>
+              <td>Open the event creation modal for today's date</td>
+            </tr>
+            <tr class="reveal">
+              <td><kbd>S</kbd></td>
+              <td>Toggle Sidebar</td>
+              <td>Open or close the upcoming events sidebar</td>
+            </tr>
+            <tr class="reveal">
+              <td><kbd>Esc</kbd></td>
+              <td>Close</td>
+              <td>Close the modal or sidebar if open</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ---- FAQ ---- -->
+      <section class="guide-section reveal">
+        <h2 class="guide-section-title">
+          <svg class="animated" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Frequently Asked Questions
+        </h2>
+        <div class="accordion" id="faq-accordion">
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              Where is my data stored?
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                All your events are stored in your browser's localStorage. This means your data never leaves your computer. It persists across page refreshes and browser restarts, but will be cleared if you clear your browser data. No account or internet connection is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              Can I export my events?
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Currently, Littlebird stores events in localStorage as JSON. You can access it via your browser's Developer Tools (Application tab > Local Storage > littlebird_events). A dedicated export feature is planned for a future update.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              How do I change an event's category?
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Click on a date cell that has events to open the event editor. In the modal, click on a different category button (Meeting, Personal, Reminder, or Deadline) to change the category. The selected category will be highlighted. Then click Save to apply.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              What do the colors mean?
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Events are color-coded by category: Gold for Meetings, Green for Personal events, Blue for Reminders, and Orange for Deadlines. These colors appear on the calendar cell tags, the sidebar event cards, and the filter pills.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              Does Littlebird work offline?
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Yes. Littlebird is entirely client-side. Once the page loads, it works fully offline. The only external resource is Google Fonts, which is cached by your browser after the first load.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" onclick="toggleAccordion(this)">
+              Can I use it on mobile?
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                Yes. The calendar is fully responsive. On smaller screens, the grid cells shrink and the sidebar opens as a full-width overlay. Touch interactions work for tapping cells and buttons.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- Project Architecture ---- -->
+      <section class="guide-section reveal">
+        <h2 class="guide-section-title">
+          <svg class="animated" viewBox="0 0 24 24">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+          </svg>
+          Project Structure
+        </h2>
+        <div class="steps-list">
+          <div class="step-item reveal">
+            <div class="step-number" style="font-size: 12px; width: 44px;">CSS</div>
+            <div class="step-content">
+              <h4>css/ directory</h4>
+              <p><strong>base.css</strong> — Design tokens, reset, typography, form styles.
+              <br><strong>animations.css</strong> — All @keyframes and scroll-reveal utility classes.
+              <br><strong>hero.css</strong> — Landing page layout, floating cells, CTA.
+              <br><strong>calendar.css</strong> — Calendar grid, cells, navigation, stats bar.
+              <br><strong>components.css</strong> — Modal, sidebar, buttons, event cards, toasts.
+              <br><strong>guide.css</strong> — This guide page layout, accordion, showcase cards.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number" style="font-size: 12px; width: 44px;">JS</div>
+            <div class="step-content">
+              <h4>js/ directory</h4>
+              <p><strong>animations.js</strong> — IntersectionObserver scroll reveals, cell stagger, toasts.
+              <br><strong>events.js</strong> — Event CRUD, localStorage persistence, search, filter, sample data.
+              <br><strong>calendar.js</strong> — Calendar grid rendering, month navigation, stats updates.
+              <br><strong>app.js</strong> — App initialization, modal/sidebar logic, keyboard shortcuts.</p>
+            </div>
+          </div>
+
+          <div class="step-item reveal">
+            <div class="step-number" style="font-size: 12px; width: 52px;">HTML</div>
+            <div class="step-content">
+              <h4>Page files</h4>
+              <p><strong>index.html</strong> — Hero landing page with animated branding and feature preview.
+              <br><strong>app.html</strong> — The main calendar application.
+              <br><strong>guide.html</strong> — This complete manual and guide page.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="guide-footer">
+      <a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="app.html">Calendar</a> &nbsp;&middot;&nbsp; Littlebird Guide
+    </footer>
+  </div>
+
+  <script src="js/animations.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Animations.init();
+    });
+
+    function toggleAccordion(trigger) {
+      const item = trigger.parentElement;
+      const isOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.accordion-item').forEach(ai => {
+        ai.classList.remove('open');
+      });
+
+      // Open clicked (if was closed)
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
+  </script>
+</body>
+</html>
