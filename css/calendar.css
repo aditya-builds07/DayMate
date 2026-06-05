@@ -485,7 +485,13 @@
   .calendar-nav {
     flex-direction: column;
     gap: var(--space-md);
-    align-items: flex-start;
+    align-items: center;
+  }
+  
+  .calendar-nav-left, .calendar-nav-right {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .cal-cell {
@@ -494,11 +500,30 @@
 
   .stats-bar {
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-md);
   }
 }
 
 @media (max-width: 600px) {
+  .app-topbar {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .app-topbar-left {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .app-topbar-right {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .calendar-grid, .calendar-header {
     gap: 4px;
   }
@@ -524,5 +549,39 @@
 
   .filter-pills {
     flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .app-topbar-left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .quick-add-container {
+    width: 100%;
+  }
+  
+  .app-topbar-right {
+    justify-content: space-between;
+  }
+  
+  .calendar-month-title {
+    font-size: 20px;
+    min-width: 0;
+  }
+  
+  .stat-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .stat-divider {
+    display: none;
+  }
+  
+  .stats-bar {
+    gap: 8px;
   }
 }

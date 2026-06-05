@@ -4,29 +4,27 @@
    ============================================ */
 
 const Events = (() => {
-  const STORAGE_KEY = 'littlebird_events';
+  let STORAGE_KEY = 'littlebird_events';
   let events = [];
   let listeners = [];
 
-  function init() {
-    load();
+  async function init() {
+    await load();
   }
 
   // ---- Persistence ----
-  function load() {
+  async function load() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      events = raw ? JSON.parse(raw) : getSampleEvents();
-      if (!raw) save(); // Save samples on first load
-    } catch {
-      events = getSampleEvents();
-      save();
+      events = await API.fetchEvents();
+      notify();
+    } catch (e) {
+      console.error('Error loading events:', e);
+      events = [];
     }
   }
 
-  function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-    notify();
+  function notify() {
+    listeners.forEach(fn => fn());
   }
 
   // ---- CRUD ----
@@ -71,25 +69,41 @@ const Events = (() => {
     return events.filter(e => e.date.startsWith(prefix)).length;
   }
 
-  function add(event) {
-    event.id = generateId();
-    event.createdAt = new Date().toISOString();
-    events.push(event);
-    save();
-    return event;
+  async function add(event) {
+    try {
+      const savedEvent = await API.addEvent(event);
+      events.push(savedEvent);
+      notify();
+      return savedEvent;
+    } catch (err) {
+      console.error("Failed to add event:", err);
+      throw err;
+    }
   }
 
-  function update(id, updates) {
+  async function update(id, updates) {
     const idx = events.findIndex(e => e.id === id);
     if (idx === -1) return null;
-    events[idx] = { ...events[idx], ...updates };
-    save();
-    return events[idx];
+    try {
+      await API.updateEvent(id, updates);
+      events[idx] = { ...events[idx], ...updates };
+      notify();
+      return events[idx];
+    } catch (err) {
+      console.error("Failed to update event:", err);
+      throw err;
+    }
   }
 
-  function remove(id) {
-    events = events.filter(e => e.id !== id);
-    save();
+  async function remove(id) {
+    try {
+      await API.deleteEvent(id);
+      events = events.filter(e => e.id !== id);
+      notify();
+    } catch (err) {
+      console.error("Failed to delete event:", err);
+      throw err;
+    }
   }
 
   function search(query) {
@@ -202,37 +216,47 @@ const Events = (() => {
    LITTLEBIRD — TASKS JS
    ============================================ */
 const Tasks = (() => {
-  const STORAGE_KEY = 'littlebird_tasks';
+  let STORAGE_KEY = 'littlebird_tasks';
   let tasks = [];
   let listeners = [];
 
-  function init() { load(); }
-  
-  function load() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      tasks = raw ? JSON.parse(raw) : [{id: 't1', title: 'Update resume'}, {id: 't2', title: 'Buy groceries'}];
-      if (!raw) save();
-    } catch { tasks = []; }
+  async function init() {
+    await load();
   }
-
-  function save() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-    notify();
+  
+  async function load() {
+    try {
+      tasks = await API.fetchTasks();
+      notify();
+    } catch (e) {
+      console.error("Error loading tasks:", e);
+      tasks = [];
+    }
   }
 
   function getAll() { return [...tasks]; }
   
-  function add(title) {
-    const task = { id: 'tsk_' + Date.now().toString(36), title };
-    tasks.push(task);
-    save();
-    return task;
+  async function add(title) {
+    try {
+      const task = await API.addTask({ title, status: 'todo' });
+      tasks.push(task);
+      notify();
+      return task;
+    } catch (err) {
+      console.error("Failed to add task:", err);
+      throw err;
+    }
   }
   
-  function remove(id) {
-    tasks = tasks.filter(t => t.id !== id);
-    save();
+  async function remove(id) {
+    try {
+      await API.deleteTask(id);
+      tasks = tasks.filter(t => t.id !== id);
+      notify();
+    } catch (err) {
+      console.error("Failed to remove task:", err);
+      throw err;
+    }
   }
 
   function onChange(fn) { listeners.push(fn); }

@@ -511,8 +511,12 @@
   }
 
   .modal {
-    border-radius: var(--radius-lg);
-    margin: var(--space-md);
+    width: calc(100vw - 24px);
+    max-width: 100%;
+    margin: 12px;
+    border-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
   .form-row {
@@ -521,6 +525,42 @@
 
   .category-picker {
     flex-wrap: wrap;
+  }
+  
+  .booking-body {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .booking-profile {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+  
+  .analytics-stats {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .quick-add-container {
+    width: 100%;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+  
+  .modal-footer button {
+    width: 100%;
+  }
+  
+  .time-slots {
+    grid-template-columns: 1fr;
   }
 }
 

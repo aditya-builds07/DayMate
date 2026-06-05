@@ -3,23 +3,99 @@
    Main app initialization, modal, sidebar
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Init modules
-  Events.init();
-  Tasks.init();
-  Animations.init();
+const App = (() => {
+  async function init() {
+    showAppUI();
+    await boot();
+  }
 
-  // Init calendar
+  function showAppUI() {
+    document.querySelector('.app-main').style.opacity = '1';
+    document.querySelector('.stats-bar').style.opacity = '1';
+  }
+
+  async function boot() {
+    await Events.init();
+    await Tasks.init();
+    
+    Calendar.render();
+    renderSidebar();
+    renderTasks();
+  }
+
+  return { init, boot };
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  Animations.init();
   Calendar.init('.calendar-grid', '.calendar-month-title', handleCellClick);
+
+  App.init();
+
+
 
   // Re-render when events or tasks change
   Events.onChange(() => {
     Calendar.render();
     renderSidebar();
+    renderDashboard();
   });
   Tasks.onChange(() => {
     renderTasks();
+    renderDashboard();
   });
+
+  // View Switcher logic
+  document.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Ignore if it's an external link like guide.html
+      if (link.getAttribute('href') !== '#') return;
+      
+      e.preventDefault();
+      const viewId = link.getAttribute('data-view');
+      if (!viewId) return;
+
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+
+      document.querySelectorAll('.view-section').forEach(v => {
+          if (v) v.style.display = 'none';
+      });
+      
+      const targetView = document.getElementById(`view-${viewId}`);
+      if (targetView) targetView.style.display = 'block';
+      
+      if (viewId === 'dashboard') renderDashboard();
+    });
+  });
+
+  function renderDashboard() {
+    const todayEventsContainer = document.getElementById('dashboard-today-events');
+    const upcomingTasksContainer = document.getElementById('dashboard-upcoming-tasks');
+    
+    if (!todayEventsContainer || !upcomingTasksContainer) return;
+    
+    const todayEvents = Events.getByDate(Events.formatDate(new Date()));
+    todayEventsContainer.innerHTML = todayEvents.length ? '' : '<p style="color: var(--text-muted); font-size: 14px;">No events today.</p>';
+    
+    todayEvents.forEach(evt => {
+       const el = document.createElement('div');
+       el.className = 'event-tag cat-' + evt.category;
+       el.textContent = `${evt.time} - ${evt.title}`;
+       todayEventsContainer.appendChild(el);
+    });
+
+    const tasks = Tasks.getAll();
+    const incompleteTasks = tasks.filter(t => t.status !== 'done');
+    upcomingTasksContainer.innerHTML = incompleteTasks.length ? '' : '<p style="color: var(--text-muted); font-size: 14px;">All caught up!</p>';
+    
+    incompleteTasks.slice(0, 5).forEach(tsk => {
+       const el = document.createElement('div');
+       el.style = 'padding: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; font-size: 14px; display: flex; align-items: center;';
+       el.innerHTML = `<span style="width: 16px; height: 16px; border: 1px solid var(--border-subtle); border-radius: 50%; margin-right: 8px;"></span> ${tsk.title}`;
+       upcomingTasksContainer.appendChild(el);
+    });
+  }
 
   // Navigation buttons
   document.getElementById('btn-prev').addEventListener('click', () => Calendar.prevMonth());
@@ -159,9 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Initial render
-  renderSidebar();
-  renderTasks();
+  // Search and filter interactions, etc. (kept intact)
 });
 
 /* ---- State ---- */
